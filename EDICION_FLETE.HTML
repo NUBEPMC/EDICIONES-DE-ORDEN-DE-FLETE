@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edición de Orden de Flete</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        form {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        input, select {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #28a745;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            background: #e9ecef;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Edición de Orden de Flete</h1>
+    <form id="edicionForm">
+        <label for="fecha">Fecha:</label>
+        <input type="date" id="fecha" name="fecha" required>
+
+        <label for="solicitante">Solicitante:</label>
+        <input type="text" id="solicitante" name="solicitante" required>
+
+        <label for="sucursalSolicitante">Sucursal solicitante:</label>
+        <input type="text" id="sucursalSolicitante" name="sucursalSolicitante" required>
+
+        <label for="sucursalOrigen">Sucursal origen:</label>
+        <input type="text" id="sucursalOrigen" name="sucursalOrigen" required>
+
+        <label for="ordenFlete">Orden de flete:</label>
+        <input type="text" id="ordenFlete" name="ordenFlete" required>
+
+        <label for="cliente">Cliente:</label>
+        <input type="text" id="cliente" name="cliente" required>
+
+        <label for="tipoMotivo">Tipo de motivo:</label>
+        <select id="tipoMotivo" name="tipoMotivo" required>
+            <option value="">Seleccione un motivo</option>
+            <option value="Cambio en forma de pago">Cambio en forma de pago</option>
+            <option value="Error en servicio de entrega">Error en servicio de entrega</option>
+            <option value="Error en datos">Error en datos</option>
+            <option value="Error en dirección de entrega">Error en dirección de entrega</option>
+            <option value="Error en documentación o especificaciones">Error en documentación o especificaciones</option>
+            <option value="Cambio de valor por servicio adicional">Cambio de valor por servicio adicional</option>
+            <option value="Ajuste de convenio">Ajuste de convenio</option>
+            <option value="Ajuste según cotización">Ajuste según cotización</option>
+            <option value="Cambio de cliente">Cambio de cliente</option>
+            <option value="Otros">Otros</option>
+        </select>
+
+        <label for="motivoEdicion">Motivo de edición:</label>
+        <input type="text" id="motivoEdicion" name="motivoEdicion" required>
+
+        <label for="montoOriginal">Monto original:</label>
+        <input type="number" id="montoOriginal" name="montoOriginal" required>
+
+        <label for="montoModificado">Monto modificado:</label>
+        <input type="number" id="montoModificado" name="montoModificado" required>
+
+        <button type="submit">Generar Resumen</button>
+    </form>
+
+    <div id="resultado" class="result" style="display: none;">
+        <h2>Resumen de la Edición</h2>
+        <p><strong>Fecha:</strong> <span id="resFecha"></span></p>
+        <p><strong>Solicitante:</strong> <span id="resSolicitante"></span></p>
+        <p><strong>Sucursal solicitante:</strong> <span id="resSucursalSolicitante"></span></p>
+        <p><strong>Sucursal origen:</strong> <span id="resSucursalOrigen"></span></p>
+        <p><strong>Orden de flete:</strong> <span id="resOrdenFlete"></span></p>
+        <p><strong>Cliente:</strong> <span id="resCliente"></span></p>
+        <p><strong>Tipo de motivo:</strong> <span id="resTipoMotivo"></span></p>
+        <p><strong>Motivo de edición:</strong> <span id="resMotivoEdicion"></span></p>
+        <p><strong>Monto original:</strong> <span id="resMontoOriginal"></span></p>
+        <p><strong>Monto modificado:</strong> <span id="resMontoModificado"></span></p>
+        <p><strong>Variación:</strong> <span id="resVariacion"></span></p>
+    </div>
+
+    <script>
+        document.getElementById('edicionForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            // Obtener valores del formulario
+            const fecha = document.getElementById('fecha').value;
+            const solicitante = document.getElementById('solicitante').value;
+            const sucursalSolicitante = document.getElementById('sucursalSolicitante').value;
+            const sucursalOrigen = document.getElementById('sucursalOrigen').value;
+            const ordenFlete = document.getElementById('ordenFlete').value;
+            const cliente = document.getElementById('cliente').value;
+            const tipoMotivo = document.getElementById('tipoMotivo').value;
+            const motivoEdicion = document.getElementById('motivoEdicion').value;
+            const montoOriginal = parseFloat(document.getElementById('montoOriginal').value);
+            const montoModificado = parseFloat(document.getElementById('montoModificado').value);
+            const variacion = montoModificado - montoOriginal;
+
+            // Mostrar resultados
+            document.getElementById('resFecha').textContent = fecha;
+            document.getElementById('resSolicitante').textContent = solicitante;
+            document.getElementById('resSucursalSolicitante').textContent = sucursalSolicitante;
+            document.getElementById('resSucursalOrigen').textContent = sucursalOrigen;
+            document.getElementById('resOrdenFlete').textContent = ordenFlete;
+            document.getElementById('resCliente').textContent = cliente;
+            document.getElementById('resTipoMotivo').textContent = tipoMotivo;
+            document.getElementById('resMotivoEdicion').textContent = motivoEdicion;
+            document.getElementById('resMontoOriginal').textContent = `$${montoOriginal.toLocaleString()}`;
+            document.getElementById('resMontoModificado').textContent = `$${montoModificado.toLocaleString()}`;
+            document.getElementById('resVariacion').textContent = `$${variacion.toLocaleString()}`;
+
+            // Mostrar el resumen
+            document.getElementById('resultado').style.display = 'block';
+        });
+    </script>
+</body>
+</html>
